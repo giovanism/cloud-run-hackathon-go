@@ -45,17 +45,23 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var v play.ArenaUpdate
+	var (
+		v play.ArenaUpdate
+		data []byte
+	)
+
 	defer req.Body.Close()
-	d := json.NewDecoder(req.Body)
-	d.DisallowUnknownFields()
-	if err := d.Decode(&v); err != nil {
-		log.Warn().Err(err).Msg("failed to decode ArenaUpdate in response body")
+	req.Body.Read(data)
+
+	log.Info().Msgf("arena update: %v", data)
+
+	if err := json.Unmarshal(data, &v); err != nil {
+		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in response body data")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	log.Info().Msgf("arena update", v)
+
 	resp := player.Play(v)
 	fmt.Fprint(w, resp)
 }
