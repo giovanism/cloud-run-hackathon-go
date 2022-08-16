@@ -53,7 +53,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Error().Err(err)
 	}
 
-	log.Info().Msgf("arena update: %s", data)
+	log.Info().Msgf("raw: %s", data)
 
 	if err := json.Unmarshal(data, &v); err != nil {
 		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in response body data")
