@@ -2,6 +2,8 @@ package pkg
 
 import (
 	"fmt"
+
+	"github.com/rs/zerolog/log"
 )
 
 type ArenaUpdate struct {
@@ -24,6 +26,8 @@ func (au *ArenaUpdate) GetSelf() (string, PlayerState, error) {
 		err := fmt.Errorf("Error self state not found")
 		return "", PlayerState{}, err
 	}
+
+	log.Debug().Msgf("self state exists: %v", state)
 
 	return url, state, nil
 }
