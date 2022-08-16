@@ -23,8 +23,8 @@ func (au *ArenaUpdate) GetSelf() (string, PlayerState, error) {
 	url := au.Links.Self.Href
 	state, ok := au.Arena.State[url]
 	if !ok {
-		err := fmt.Errorf("Error self state not found")
-		return "", PlayerState{}, err
+		err := fmt.Errorf("self state not found")
+		return url, PlayerState{}, err
 	}
 
 	log.Debug().Msgf("self state exists: %v", state)
