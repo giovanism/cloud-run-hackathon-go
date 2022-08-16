@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
@@ -26,6 +27,11 @@ func init() {
 	default:
 		player = play.NewRandomPlayer()
 	}
+
+	if env := os.Getenv("ENV"); env == "" || env == "dev" {
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
+	}
+	// else env == "prod" will use default/json writer
 }
 
 func main() {
