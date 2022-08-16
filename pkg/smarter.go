@@ -1,8 +1,10 @@
 package pkg
 
 import (
-	"log"
+	"fmt"
 	"math"
+
+	"github.com/rs/zerolog/log"
 )
 
 type smarterPlayer struct {
@@ -16,12 +18,12 @@ func NewSmarterPlayer() Player {
 // Smarter algorithm inspired by Asing1001
 // Ref: https://github.com/Asing1001/cloud-run-hackathon-nodejs
 func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
-	log.Printf("IN: %#v", input)
-
 	selfUrl := input.Links.Self.Href
 	selfState, ok := input.Arena.State[selfUrl]
 	if !ok {
-		log.Print("Error self state not found")
+		err := fmt.Errorf("Error self state not found")
+		log.Error().Err(err)
+		return MoveThrow
 	}
 
 	arenaXLength := input.Arena.Dimensions[0]

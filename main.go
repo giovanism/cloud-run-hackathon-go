@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
 
+	"github.com/rs/zerolog/log"
 	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
 )
 
@@ -34,9 +34,9 @@ func main() {
 	}
 	http.HandleFunc("/", handler)
 
-	log.Printf("starting server on port :%s", port)
+	log.Info().Msgf("starting server on port :%s", port)
 	err := http.ListenAndServe(":"+port, nil)
-	log.Fatalf("http listen error: %v", err)
+	log.Fatal().Msgf("http listen error: %v", err)
 }
 
 func handler(w http.ResponseWriter, req *http.Request) {
@@ -50,11 +50,12 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	d := json.NewDecoder(req.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&v); err != nil {
-		log.Printf("WARN: failed to decode ArenaUpdate in response body: %v", err)
+		log.Warn().Err(err).Msg("failed to decode ArenaUpdate in response body")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
+	log.Info().Msgf("arena update", v)
 	resp := player.Play(v)
 	fmt.Fprint(w, resp)
 }
