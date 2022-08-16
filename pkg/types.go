@@ -1,4 +1,4 @@
-package main
+package pkg
 
 type ArenaUpdate struct {
 	Links struct {
@@ -19,3 +19,20 @@ type PlayerState struct {
 	WasHit    bool   `json:"wasHit"`
 	Score     int    `json:"score"`
 }
+
+const (
+	DirectionNorth = "N"
+	DirectionWest = "W"
+	DirectionSouth = "S"
+	DirectionEast = "E"
+
+	MoveForward = "F"
+	MoveThrow = "T"
+	MoveTurnLeft = "L"
+	MoveTurnRight = "R"
+)
+
+var (
+	Directions = []string{DirectionNorth, DirectionWest, DirectionSouth, DirectionEast}
+	Moves = []string{MoveForward, MoveThrow, MoveTurnLeft, MoveTurnRight}
+)

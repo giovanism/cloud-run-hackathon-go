@@ -1,4 +1,4 @@
 // +heroku goVersion 1.14
-module github.com/GoogleCloudPlatform/cloudbowl-microservice-game/samples/go
+module github.com/giovanism/cloud-run-hackathon-go
 
-go 1.14
+go 1.19

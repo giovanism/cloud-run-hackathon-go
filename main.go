@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	rand2 "math/rand"
 	"net/http"
 	"os"
+
+	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
 )
 
 func main() {
@@ -27,7 +28,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var v ArenaUpdate
+	var v play.ArenaUpdate
 	defer req.Body.Close()
 	d := json.NewDecoder(req.Body)
 	d.DisallowUnknownFields()
@@ -37,14 +38,6 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	resp := play(v)
+	resp := play.Random(v)
 	fmt.Fprint(w, resp)
-}
-
-func play(input ArenaUpdate) (response string) {
-	log.Printf("IN: %#v", input)
-
-	commands := []string{"F", "R", "L", "T"}
-	rand := rand2.Intn(4)
-	return commands[rand]
 }
