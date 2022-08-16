@@ -6,14 +6,28 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
 )
 
 var player play.Player
 
+func init() {
+	var strategy string
+	if v := os.Getenv("STRATEGY"); v != "" {
+		 strategy = strings.ToLower(v)
+	}
+
+	switch strategy {
+	case "smarter":
+		player = play.NewSmarterPlayer()
+	default:
+		player = play.NewRandomPlayer()
+	}
+}
+
 func main() {
-	player = play.NewRandomPlayer()
 	port := "8080"
 	if v := os.Getenv("PORT"); v != "" {
 		port = v
