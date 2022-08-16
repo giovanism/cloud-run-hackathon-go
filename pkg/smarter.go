@@ -35,8 +35,12 @@ func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
 	maxX := arenaXLength - 1
 	maxY := arenaYLength - 1
 
-	otherStates := input.Arena.State
-	delete(otherStates, selfUrl)
+	otherStates := make(map[string]PlayerState)
+	for k, v := range input.Arena.State {
+		if k != selfUrl {
+			otherStates[k] = v
+		}
+	}
 
 	if selfState.Y == 0 && selfState.Direction == DirectionNorth {
 		if selfState.X == 0 {
