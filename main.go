@@ -59,7 +59,9 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		log.Error().Err(err).Msg("failed to read request body")
 	}
 
-	log.Info().Msgf("raw: %s", data)
+	log.Info().
+		Str("arena_update", fmt.Sprintf("%s", data)).
+		Msg("raw request body")
 
 	if err := json.Unmarshal(data, &v); err != nil {
 		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in request body data")
