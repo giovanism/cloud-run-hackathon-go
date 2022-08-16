@@ -1,27 +1,30 @@
 package pkg
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/rs/zerolog/log"
 )
 
 type smarterPlayer struct {
+	*basePlayer
 }
 
 func NewSmarterPlayer() Player {
-	return &smarterPlayer{}
+	return &smarterPlayer{
+		basePlayer: newBasePlayer(),
+	}
 }
 
 
 // Smarter algorithm inspired by Asing1001
 // Ref: https://github.com/Asing1001/cloud-run-hackathon-nodejs
 func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
-	selfUrl := input.Links.Self.Href
-	selfState, ok := input.Arena.State[selfUrl]
-	if !ok {
-		err := fmt.Errorf("Error self state not found")
+
+	defer p.basePlayer.Log(input)
+
+	selfUrl, selfState, err := input.GetSelf()
+	if err != nil {
 		log.Error().Err(err)
 		return MoveThrow
 	}

@@ -1,5 +1,9 @@
 package pkg
 
+import (
+	"fmt"
+)
+
 type ArenaUpdate struct {
 	Links struct {
 		Self struct {
@@ -10,6 +14,18 @@ type ArenaUpdate struct {
 		Dimensions []int                  `json:"dims"`
 		State      map[string]PlayerState `json:"state"`
 	} `json:"arena"`
+}
+
+// GetSelf url and state
+func (au *ArenaUpdate) GetSelf() (string, PlayerState, error) {
+	url := au.Links.Self.Href
+	state, ok := au.Arena.State[url]
+	if !ok {
+		err := fmt.Errorf("Error self state not found")
+		return "", PlayerState{}, err
+	}
+
+	return url, state, nil
 }
 
 type PlayerState struct {
@@ -26,17 +42,24 @@ type Player interface {
 
 const (
 	DirectionNorth = "N"
-	DirectionWest = "W"
+	DirectionWest  = "W"
 	DirectionSouth = "S"
-	DirectionEast = "E"
+	DirectionEast  = "E"
 
-	MoveForward = "F"
-	MoveThrow = "T"
-	MoveTurnLeft = "L"
+	MoveForward   = "F"
+	MoveThrow     = "T"
+	MoveTurnLeft  = "L"
 	MoveTurnRight = "R"
 )
 
 var (
 	Directions = []string{DirectionNorth, DirectionWest, DirectionSouth, DirectionEast}
-	Moves = []string{MoveForward, MoveThrow, MoveTurnLeft, MoveTurnRight}
+	Moves      = []string{MoveForward, MoveThrow, MoveTurnLeft, MoveTurnRight}
 )
+
+type Update struct {
+	MatchID            string      `json:"match_id"`
+	RoundID            uint        `json:"round_id"`
+	PreviousRoundScore uint        `json:"previous_round_score"`
+	ArenaUpdate        ArenaUpdate `json:"arena_update"`
+}

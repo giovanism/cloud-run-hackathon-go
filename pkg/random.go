@@ -5,13 +5,17 @@ import (
 )
 
 type randomPlayer struct {
+	*basePlayer
 }
 
 func NewRandomPlayer() Player {
-	return &randomPlayer{}
+	return &randomPlayer{
+		basePlayer: newBasePlayer(),
+	}
 }
 
 func (p *randomPlayer) Play(input ArenaUpdate) (response string) {
+	defer p.basePlayer.Log(input)
 	rand := rand2.Intn(4)
 	return Moves[rand]
 }
