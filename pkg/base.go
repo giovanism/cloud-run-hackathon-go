@@ -32,6 +32,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 	for _, state := range au.Arena.State {
 		if state.Score != 0 {
 			resetMatch = false
+			break
 		}
 	}
 
@@ -40,6 +41,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 	}
 
 	_, selfState, err := au.GetSelf()
+	log.Debug().Msgf("selfState: %v", selfState)
 	if err != nil {
 		log.Error().Err(err)
 	}
