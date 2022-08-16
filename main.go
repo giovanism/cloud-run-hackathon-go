@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 
-	"github.com/rs/zerolog/log"
 	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
+	"github.com/rs/zerolog/log"
 )
 
 var player play.Player
@@ -45,15 +46,14 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var (
-		v play.ArenaUpdate
-		data []byte
-	)
-
+	var v play.ArenaUpdate
 	defer req.Body.Close()
-	req.Body.Read(data)
+	data, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Error().Err(err)
+	}
 
-	log.Info().Msgf("arena update: %v", data)
+	log.Info().Msgf("arena update: %s", data)
 
 	if err := json.Unmarshal(data, &v); err != nil {
 		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in response body data")
