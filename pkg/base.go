@@ -42,7 +42,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 
 	_, selfState, err := au.GetSelf()
 	if err != nil {
-		log.Error().Err(err)
+		log.Error().Err(err).Msg("failed to get self state")
 	}
 
 	p.RoundID += 1
@@ -57,7 +57,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 
 	data, err := json.Marshal(update)
 	if err != nil {
-		log.Error().Err(err)
+		log.Error().Err(err).Msg("failed to marshal update data")
 	}
 
 	log.Info().Msgf("update: %s", data)

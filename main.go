@@ -50,13 +50,13 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 	data, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		log.Error().Err(err)
+		log.Error().Err(err).Msg("failed to read request body")
 	}
 
 	log.Info().Msgf("raw: %s", data)
 
 	if err := json.Unmarshal(data, &v); err != nil {
-		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in response body data")
+		log.Warn().Err(err).Msg("failed to unmarshal ArenaUpdate in request body data")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

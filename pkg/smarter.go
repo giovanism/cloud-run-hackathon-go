@@ -25,7 +25,7 @@ func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
 
 	selfUrl, selfState, err := input.GetSelf()
 	if err != nil {
-		log.Error().Err(err)
+		log.Error().Err(err).Msg("failed to get self from input")
 		return MoveThrow
 	}
 
