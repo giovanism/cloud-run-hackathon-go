@@ -10,7 +10,10 @@ import (
 	play "github.com/giovanism/cloud-run-hackathon-go/pkg"
 )
 
+var player play.Player
+
 func main() {
+	player = play.NewRandomPlayer()
 	port := "8080"
 	if v := os.Getenv("PORT"); v != "" {
 		port = v
@@ -38,6 +41,6 @@ func handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	resp := play.Random(v)
+	resp := player.Play(v)
 	fmt.Fprint(w, resp)
 }

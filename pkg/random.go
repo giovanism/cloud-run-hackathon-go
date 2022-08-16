@@ -5,7 +5,14 @@ import (
 	"log"
 )
 
-func Random(input ArenaUpdate) (response string) {
+type randomPlayer struct {
+}
+
+func NewRandomPlayer() Player {
+	return &randomPlayer{}
+}
+
+func (p *randomPlayer) Play(input ArenaUpdate) (response string) {
 	log.Printf("IN: %#v", input)
 
 	rand := rand2.Intn(4)

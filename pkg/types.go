@@ -20,6 +20,10 @@ type PlayerState struct {
 	Score     int    `json:"score"`
 }
 
+type Player interface {
+	Play(ArenaUpdate) string
+}
+
 const (
 	DirectionNorth = "N"
 	DirectionWest = "W"
