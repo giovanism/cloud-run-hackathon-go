@@ -39,7 +39,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 		p.reset()
 	}
 
-	_, state, err := au.GetSelf()
+	_, selfState, err := au.GetSelf()
 	if err != nil {
 		log.Error().Err(err)
 	}
@@ -49,7 +49,7 @@ func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 	update := Update{
 		MatchID:            p.MatchID.String(),
 		RoundID:            p.RoundID,
-		PreviousRoundScore: uint(state.Score),
+		PreviousRoundScore: uint(selfState.Score),
 		Move:               response,
 		ArenaUpdate:        au,
 	}
