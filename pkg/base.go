@@ -23,12 +23,11 @@ func (p *basePlayer) reset() {
 	p.RoundID = 0
 }
 
-func (p *basePlayer) Log(au ArenaUpdate) {
-	go p.logSync(au)
+func (p *basePlayer) Log(au ArenaUpdate, response string) {
+	go p.logSync(au, response)
 }
 
-func (p *basePlayer) logSync(au ArenaUpdate) {
-
+func (p *basePlayer) logSync(au ArenaUpdate, response string) {
 	resetMatch := true
 	for _, state := range au.Arena.State {
 		if state.Score != 0 {
@@ -45,11 +44,14 @@ func (p *basePlayer) logSync(au ArenaUpdate) {
 		log.Error().Err(err)
 	}
 
+	p.RoundID += 1
+
 	update := Update{
-		MatchID: p.MatchID.String(),
-		RoundID: p.RoundID,
+		MatchID:            p.MatchID.String(),
+		RoundID:            p.RoundID,
 		PreviousRoundScore: uint(state.Score),
-		ArenaUpdate: au,
+		Move:               response,
+		ArenaUpdate:        au,
 	}
 
 	data, err := json.Marshal(update)

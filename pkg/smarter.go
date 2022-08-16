@@ -21,7 +21,7 @@ func NewSmarterPlayer() Player {
 // Ref: https://github.com/Asing1001/cloud-run-hackathon-nodejs
 func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
 
-	defer p.basePlayer.Log(input)
+	defer func(){ p.basePlayer.Log(input, response) }()
 
 	selfUrl, selfState, err := input.GetSelf()
 	if err != nil {

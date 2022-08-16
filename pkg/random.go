@@ -15,7 +15,7 @@ func NewRandomPlayer() Player {
 }
 
 func (p *randomPlayer) Play(input ArenaUpdate) (response string) {
-	defer p.basePlayer.Log(input)
+	defer func(){ p.basePlayer.Log(input, response) }()
 	rand := rand2.Intn(4)
 	return Moves[rand]
 }

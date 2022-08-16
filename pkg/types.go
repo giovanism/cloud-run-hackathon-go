@@ -61,5 +61,6 @@ type Update struct {
 	MatchID            string      `json:"match_id"`
 	RoundID            uint        `json:"round_id"`
 	PreviousRoundScore uint        `json:"previous_round_score"`
+	Move			   string      `json:"move"`
 	ArenaUpdate        ArenaUpdate `json:"arena_update"`
 }
