@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"math"
+	"math/rand"
 
 	"github.com/rs/zerolog/log"
 )
@@ -117,7 +118,7 @@ func (p *smarterPlayer) Play(input ArenaUpdate) (response string) {
 	}
 
 	if canThrow {
-		if selfState.WasHit {
+		if selfState.WasHit && rand.Intn(100) < 25 {
 			if moveConflict() {
 				return MoveTurnLeft
 			}
